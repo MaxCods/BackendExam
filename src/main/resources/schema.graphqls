@@ -1,0 +1,26 @@
+# ! = required, null not allowed, otherwise leave out;
+# [] for Collection
+type ExampleModel {
+    id: Int!,
+    name: String!
+}
+
+input ExampleModelInput {
+    id: Int!
+    name: String!
+}
+
+# kind of comparable to get-methods
+# [ExampleModel!]! => list may be empty, but must not include null values
+type Query {
+    model(id: Int): ExampleModel
+    models: [ExampleModel!]!
+    modelByName(name: String): [ExampleModel!]!
+}
+
+# kind of comparable to push, put, delete
+type Mutation {
+    create(name: String!): ExampleModel
+    update(model: ExampleModelInput!) : ExampleModel
+    delete(id: Int!) :Boolean
+}
