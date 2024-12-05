@@ -40,6 +40,7 @@ public class Main
 		server.setHandler( context );
 
 		ExampleModelInMemoryStorage.getInstance().populateDatabase();
+
 		context.addServlet( new ServletHolder( new DemoServlet( ) ), "/graphql" );
 
 		server.start( );
@@ -49,5 +50,6 @@ public class Main
 		}
 		// The next statement keeps the server running -- don't remove it!
 		server.join( );
+		//testtest
 	}
 }
