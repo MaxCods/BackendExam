@@ -23,6 +23,10 @@ public class GraphQLClient {
         for(ExampleModel person : result){
             System.out.println(person.getName());
         }
+
+        ExampleModel output= create("John Doe");
+
+
     }
 
     public static List<ExampleModel> fetchPersons(String personAttributes) throws URISyntaxException, IOException, InterruptedException {
@@ -58,5 +62,27 @@ public class GraphQLClient {
         }
 
         return persons;
+    }
+
+    public static ExampleModel create(String  name)throws URISyntaxException, IOException, InterruptedException{
+        HttpClient client= HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8081/graphql"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString( "{ \"query\": \"mutation { create(name: \\\""+name+"\\\") { id name } }\" }"))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        String responseBody = response.body();
+        System.out.println("Response Body: " + responseBody);
+        ObjectMapper objectMapper= new ObjectMapper();
+
+        var result= objectMapper.readValue(responseBody,new TypeReference<Map>(){});
+        Map<String, Object> dataMap= (Map<String, Object>) result.get("data");
+        Map<String, Object> createMap= (Map<String, Object>) dataMap.get("create");
+
+        ExampleModel person= objectMapper.convertValue(createMap,ExampleModel.class);
+        return person;
     }
 }
