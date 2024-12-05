@@ -19,4 +19,23 @@ public class TaskMutationResolver implements GraphQLMutationResolver {
         TaskInMemoryStorage.getInstance().create(t);
         return t;
     }
+    public Task update(final TaskInput Input){
+        if(TaskInMemoryStorage.getInstance().readById(Input.getId()).isPresent()){
+            Task toUpdate= (Task)TaskInMemoryStorage.getInstance().readById(Input.getId()).get();
+            toUpdate.setStatus(Input.getStatus());
+            toUpdate.setTitle(Input.getTitle());
+            toUpdate.setDescription(Input.getDescription());
+
+            TaskInMemoryStorage.getInstance().update(toUpdate);
+            return toUpdate;
+        }
+        else return null;
+    }
+    public boolean delete(int id){
+
+        if(TaskInMemoryStorage.getInstance().readById(id).isPresent()){
+        TaskInMemoryStorage.getInstance().delete(id);
+        return true;}
+        else return false;
+    }
 }

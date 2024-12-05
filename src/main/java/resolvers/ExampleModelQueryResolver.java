@@ -3,6 +3,8 @@ package resolvers;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import models.ExampleModel;
 import storage.ExampleModelInMemoryStorage;
+import models.*;
+import storage.TaskInMemoryStorage;
 
 import java.util.List;
 
@@ -21,5 +23,11 @@ public class ExampleModelQueryResolver implements GraphQLQueryResolver {
     {
         return ExampleModelInMemoryStorage.getInstance( ).readByPredicate( p -> p.getName( ).equals( lastName ) );
     }
+
+    //getById(id:Int!): Task
+//    public Task getById(int id){
+//
+//        return (Task)TaskInMemoryStorage.getInstance().readById(id).orElse(null);
+//    }
 
 }

@@ -23,10 +23,14 @@ enum status{
 type Query{
     getAll: [Task!]!,
     getAllWithFilter(contains:String!):[Task!]!
+
 }
 
 type Mutation{
-    create(Task:TaskInput!): Task
+    create(Task:TaskInput!): Task,
+    update(Input: TaskInput!): Task,
+    delete(id:Int!): Boolean
+
 }
 
 
